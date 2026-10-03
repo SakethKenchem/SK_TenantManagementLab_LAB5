@@ -9,7 +9,9 @@ import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -19,12 +21,20 @@ class MainActivity : AppCompatActivity() {
 
         binding.saveButton.setOnClickListener {
             val name = binding.tenantNameEditText.text.toString()
+            if (name.isEmpty()) {
+                binding.tenantNameEditText.error = "Tenant name is required"
+                return@setOnClickListener
+            }
             val phone = binding.phoneEditText.text.toString()
             val rent = binding.rentEditText.text.toString()
-            binding.tenantResultTextView.text =
-                "Tenant: $name\nPhone: $phone\nRent: KSh $rent"
+            val tenant = Tenant(name, phone, rent)
+            binding.tenant = tenant
+
+            binding.tenantNameEditText.text.clear()
+            binding.phoneEditText.text.clear()
+            binding.rentEditText.text.clear()
         }
 
 
-        }
     }
+}
