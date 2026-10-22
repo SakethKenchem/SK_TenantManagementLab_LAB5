@@ -13,6 +13,9 @@ import android.view.Menu
 import android.content.Intent
 import android.view.MenuItem
 import androidx.navigation.ui.onNavDestinationSelected
+import androidx.navigation.ui.setupWithNavController
+import com.example.tenantmanagementsystem.databinding.NavHeaderBinding
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -38,8 +41,16 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
         // 3. Connect the App Bar to navigation:
         // the title comes from each destination's android:label
-        appBarConfiguration = AppBarConfiguration(navController.graph)
+        appBarConfiguration = AppBarConfiguration(
+            setOf(R.id.dashboardFragment, R.id.addTenantFragment, R.id.viewTenantsFragment),
+            binding.drawerLayout
+        )
         setupActionBarWithNavController(navController, appBarConfiguration)
+        binding.navView.setupWithNavController(navController)
+        val email = intent.getStringExtra("EMAIL")
+        val headerBinding = NavHeaderBinding.bind(binding.navView.getHeaderView(0))
+        headerBinding.headerEmailTextView.text = email
+
     }
 
     // 4. Make the App Bar's back arrow work
