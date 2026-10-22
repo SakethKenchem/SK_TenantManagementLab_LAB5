@@ -8,6 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 // Generated from fragment_view_tenants.xml (a Data Binding layout)
 import com.example.tenantmanagementsystem.databinding.FragmentViewTenantsBinding
+import android.content.Intent
+import android.net.Uri
+
 
 class ViewTenantsFragment : Fragment() {
     private var _binding: FragmentViewTenantsBinding? = null
@@ -37,6 +40,12 @@ class ViewTenantsFragment : Fragment() {
         // newTenantGroup ← the <Group> in fragment_view_tenants.xml
         if (newTenant == null) {
             binding.newTenantGroup.visibility = View.GONE
+        }
+        binding.callButton.setOnClickListener {
+            if (newTenant != null) {
+                val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${newTenant.phone}"))
+                startActivity(intent)
+            }
         }
         // Show every saved tenant as text, one after another
         val tenants = TenantRepository.tenants
